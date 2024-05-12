@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  helpdroid-react-app:
+    container_name: react-app-container
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src:/app/src
+      - ./public:/app/public
+    environment:
+      - NODE_ENV=development
+    command: nginx -g 'daemon off;'

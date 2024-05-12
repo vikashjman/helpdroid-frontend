@@ -1,0 +1,161 @@
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import {
+    BsFillArchiveFill,
+    BsFillGrid3X3GapFill,
+    BsPeopleFill,
+    BsFillBellFill,
+} from "react-icons/bs";
+import { FaBold, FaHeart } from "react-icons/fa"; // Assuming you're using Font Awesome
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import Paper from "@mui/material/Paper";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ThermostatIcon from "@mui/icons-material/Thermostat";
+import PulseIcon from "@mui/icons-material/Favorite"; // Assuming you're using this for pulse
+import OxygenIcon from "@mui/icons-material/Air"; // This is an assumption, replace with the actual icon you wish to use
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder"; // Assuming this is for pulse rate
+
+import {
+    BarChart,
+    Bar,
+    Cell,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    Legend,
+    ResponsiveContainer,
+    LineChart,
+    Line,
+} from "recharts";
+
+function Home_Doc() {
+    const [prescriptions, setPrescriptions] = useState(0);
+    const [reminders, setReminders] = useState(0);
+    const [doctors, setDoctors] = useState(0);
+    const [temperature, setTemperature] = useState(0);
+    const [pulse, setPulse] = useState(0);
+    const [oxygenLevel, setOxygenLevel] = useState(0);
+    const [graph, setGraph] = useState(0);
+
+    useEffect(() => {
+        const fetchCounts = async () => {
+            try {
+                const response = await axios.post(
+                    "https://my-flask-app-container-1-0.onrender.com/doc-statistics",
+                    {
+                        email: sessionStorage.getItem("user_email"),
+                    }
+                );
+                console.log(response.data);
+                console.log(response.status);
+                if (response.status === 200) {
+                    setReminders(response.data.appiontment_count);
+                    setDoctors(response.data.chat_count);
+                    setGraph(response.data.seven)
+                }
+            } catch (error) {
+                console.error("Failed to fetch counts:", error);
+            }
+        };
+
+        fetchCounts();
+    }, []); //
+
+    const dummyData = [
+        {
+            date: "2024-04-14",
+            count: 1
+        },
+        {
+            date: "2024-04-15",
+            count: 2,
+        },
+        {
+            date: "2024-04-16",
+            count: 3,
+        },
+        // ... more dummy data ...
+    ];
+
+    return (
+        <main className="main-container">
+            {/* <div className="main-title">
+        <h3>DASHBOARD</h3>
+      </div> */}
+
+            <div className="main-cards-doctor">
+                <div className="card">
+                    <div className="card-inner">
+                        <h3>Today Appointments</h3>
+                        <BsFillGrid3X3GapFill className="card_icon" />
+                    </div>
+                    <h1>{reminders}</h1>
+                </div>
+                <div className="card">
+                    <div className="card-inner">
+                        <h3>Paitent Chated </h3>
+                        <BsPeopleFill className="card_icon" />
+                    </div>
+                    <h1>{doctors}</h1>
+                </div>
+
+            </div>
+
+            <div className="charts">
+                {/* <ResponsiveContainer width="100%" height="100%">
+          <BarChart
+            width={500}
+            height={300}
+            data={data}
+            margin={{
+              top: 5,
+              right: 30,
+              left: 20,
+              bottom: 5,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Bar dataKey="pv" fill="#8884d8" />
+            <Bar dataKey="uv" fill="#82ca9d" />
+          </BarChart>
+        </ResponsiveContainer> */}
+
+                <ResponsiveContainer width="100%" height="100%">
+                    <LineChart
+                        data={graph}
+                        margin={{
+                            top: 5,
+                            right: 30,
+                            left: 20,
+                            bottom: 5,
+                        }}
+                    >
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="date" />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                        <Line
+                            type="monotone"
+                            dataKey="count"
+                            stroke="#8884d8"
+                            strokeWidth={3}
+                            name="count"
+                        />
+
+                    </LineChart>
+                </ResponsiveContainer>
+
+            </div>
+        </main>
+    );
+}
+
+export default Home_Doc;
