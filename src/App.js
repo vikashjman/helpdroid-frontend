@@ -16,26 +16,21 @@ import CheckHealth from "./pages/checkhealth";
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/patient" element={<Patient />} />
-        <Route
-          path="/uploadprescription"
-          element={<PrescriptionUploadPage />}
-        />
-        <Route path="/contact" element={<ContactSchedule />} />
-        <Route path="/managemedication" element={<MedicationSchedule />} />
-        <Route path="/managepresciption" element={<DisplayImages />} />
-        <Route path="/doctorlist" element={<DoctorList />} />
-        <Route path="/doctor" element={<Doctor />} />
-        <Route path="/manageappoint" element={<AppointmentSchedule />} />
-        <Route path="/editprofile" element={< EditProfile />} />
-        <Route path="/checkhealth" element={<CheckHealth />} />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path="/" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/home" element={<Home />} />
+      <Route path="/patient" element={<Patient />} />
+      <Route path="/uploadprescription" element={<PrescriptionUploadPage />} />
+      <Route path="/contact" element={<ContactSchedule />} />
+      <Route path="/managemedication" element={<MedicationSchedule />} />
+      <Route path="/managepresciption" element={<DisplayImages />} />
+      <Route path="/doctorlist" element={<DoctorList />} />
+      <Route path="/doctor" element={<Doctor />} />
+      <Route path="/manageappoint" element={<AppointmentSchedule />} />
+      <Route path="/editprofile" element={<EditProfile />} />
+      <Route path="/checkhealth" element={<CheckHealth />} />
+    </Routes>
   );
 }
 
